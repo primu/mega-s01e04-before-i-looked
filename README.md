@@ -1,7 +1,7 @@
 # rig
 
 Keeps a lane's lights on while nobody is in it: a heartbeat every minute, a status board, and
-(next) a morning digest of what ran overnight.
+a morning digest of what ran overnight.
 
 ```sh
 cp .env.example .env   # set LANE_MARKER
@@ -18,7 +18,7 @@ loopback HTTP origins, rejects redirects, and preserves the response bytes and l
 From this checkout, save one self-contained HTML file to an explicit path outside Git:
 
 ```powershell
-node scripts/export-digest.mjs --night 2026-10-28 --output 'E:/Sync/PRZEMEK/KURSY/2026-09-03 - MEGA.DEV/dist/index.html'
+node scripts/export-digest.mjs --night 2026-10-28 --output 'C:/path/to/workspace/dist/index.html'
 ```
 
 Use `--origin http://127.0.0.1:8788` if rig runs on another port. The command requires
