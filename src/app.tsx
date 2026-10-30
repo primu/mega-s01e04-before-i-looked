@@ -7,6 +7,12 @@ import { Digest } from './views/digest.js';
 import { Layout } from './views/layout.js';
 import { StatusBoard } from './views/status.js';
 
+function isNightLabel(night: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(night)) return false;
+  const date = new Date(`${night}T00:00:00Z`);
+  return Number.isFinite(date.getTime()) && date.toISOString().slice(0, 10) === night;
+}
+
 export function createApp(config: RigConfig = loadConfig()) {
   const app = new Hono();
 
@@ -14,7 +20,7 @@ export function createApp(config: RigConfig = loadConfig()) {
 
   app.get('/digest/:night', async (c) => {
     const night = c.req.param('night');
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(night)) return c.notFound();
+    if (!isNightLabel(night)) return c.notFound();
 
     const digest = await readNight(config.runsDir, night);
     if (digest === null) return c.notFound();
@@ -28,7 +34,7 @@ export function createApp(config: RigConfig = loadConfig()) {
 
   app.get('/api/digest/:night', async (c) => {
     const night = c.req.param('night');
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(night)) return c.notFound();
+    if (!isNightLabel(night)) return c.notFound();
 
     const digest = await readNight(config.runsDir, night);
     if (digest === null) return c.notFound();
